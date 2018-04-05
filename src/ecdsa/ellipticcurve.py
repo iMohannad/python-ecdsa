@@ -174,6 +174,20 @@ class Point(object):
           result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
 
     return result
+  
+  def NAF_multiply(self, k):
+    result = INFINITY
+    q = self
+    negative_self = Point(self.__curve, self.__x, -self.__y, self.__order)
+    for i in k:
+      result = result.double()
+      if i != 0:
+        if i > 0:
+          result = result + q
+        else:
+          result = result + negative_self
+
+    return result
 
 
   def double(self):
