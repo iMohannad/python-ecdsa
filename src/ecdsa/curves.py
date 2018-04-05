@@ -1,6 +1,6 @@
 from __future__ import division
 
-from . import der, ecdsa
+import der, ecdsa
 
 
 class UnknownCurveError(Exception):

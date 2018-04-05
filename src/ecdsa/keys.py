@@ -1,12 +1,12 @@
 import binascii
 
-from . import ecdsa
-from . import der
-from . import rfc6979
-from .curves import NIST192p, find_curve
-from .util import string_to_number, number_to_string, randrange
-from .util import sigencode_string, sigdecode_string
-from .util import oid_ecPublicKey, encoded_oid_ecPublicKey
+import ecdsa
+import der
+import rfc6979
+from curves import NIST192p, find_curve
+from util import string_to_number, number_to_string, randrange
+from util import sigencode_string, sigdecode_string
+from util import oid_ecPublicKey, encoded_oid_ecPublicKey
 from six import PY3, b
 from hashlib import sha1
 
@@ -47,7 +47,7 @@ class VerifyingKey:
         y = string_to_number(ys)
         if validate_point:
             assert ecdsa.point_is_valid(curve.generator, x, y)
-        from . import ellipticcurve
+        import ellipticcurve
         point = ellipticcurve.Point(curve.curve, x, y, order)
         return klass.from_public_point(point, curve, hashfunc)
 

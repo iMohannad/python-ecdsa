@@ -1,4 +1,4 @@
-from .ellipticcurve import CurveFp, INFINITY, Point
+from ellipticcurve import CurveFp, INFINITY, Point
 from six import print_
 
 def test_ellipticcurve():
@@ -83,11 +83,12 @@ def test_ellipticcurve():
   c192 = CurveFp(p, -3, b)
   p192 = Point(c192, Gx, Gy, r)
 
-  # Checking against some sample computations presented
+  # Checking againtest_doublest some sample computations presented
   # in X9.62:
 
   d = 651056770906015076056810763456358567190100156695615665659
   Q = d * p192
+  print("Q > ", Q.y())
   if Q.x() != 0x62B12D60690CDCF330BABAB6E69763B471F994DD702D16A5:
     raise FailedTest("p192 * d came out wrong.")
   else:
@@ -109,3 +110,6 @@ def test_ellipticcurve():
     raise FailedTest("u1 * p192 + u2 * Q came out wrong.")
   else:
     print_("u1 * p192 + u2 * Q came out right.")
+
+if __name__ == "__main__":
+  test_ellipticcurve();

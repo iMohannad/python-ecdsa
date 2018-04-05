@@ -9,16 +9,16 @@ from binascii import hexlify, unhexlify
 from hashlib import sha1, sha256, sha512
 
 from six import b, print_, binary_type
-from .keys import SigningKey, VerifyingKey
-from .keys import BadSignatureError
-from . import util
-from .util import sigencode_der, sigencode_strings
-from .util import sigdecode_der, sigdecode_strings
-from .curves import Curve, UnknownCurveError
-from .curves import NIST192p, NIST224p, NIST256p, NIST384p, NIST521p, SECP256k1
-from .ellipticcurve import Point
-from . import der
-from . import rfc6979
+from keys import SigningKey, VerifyingKey
+from keys import BadSignatureError
+import util
+from util import sigencode_der, sigencode_strings
+from util import sigdecode_der, sigdecode_strings
+from curves import Curve, UnknownCurveError
+from curves import NIST192p, NIST224p, NIST256p, NIST384p, NIST521p, SECP256k1
+from ellipticcurve import Point
+import der
+import rfc6979
 
 
 class SubprocessError(Exception):
