@@ -220,12 +220,8 @@ def digitD(k, D):
 
 
 def RDP(k, D):
-    count = 10;
     bin_k = []; # binary representation of k to contain the result
     while k != 0:
-        count -= 1
-        if (count == 0):
-            break;
         ki = digitD(k, D);
         bin_k.insert(0, ki);
         k = (k - ki) / 2;
@@ -262,20 +258,10 @@ if __name__ == '__main__':
     # m = int(sys.argv[2]);
     # l = int(sys.argv[3]);
     # D = generate_random_D(m, l);
-    D = [3, 23, 27, 53, 61, 71, 79, 97];
-    D.insert(0, 1);
-    k = 1;
-    while k < 100:
-        # D = [3, 23, 27]
-        # print "D = ", D, ", n = ", len(D);
-        result = RDP(k, D);
-        binNum = convertBinary(k);
-        naf = convertNAF(k);
-        if (len(binNum) < len(result) and isNAF(binNum)):
-            result = binNum;
-        if (k < 10):
-            print "k = ", k, "\t\tRDR = ", result, "\t\tNAF = ", naf;#, "\t\tLength -> ", len(result);
-        else:
-            print "k = ", k, "\tRDR = ", result, "\t\tNAF = ", naf;#, "\t\tLength -> ", len(result);
-        # print "Length => ", len(result)
-        k += 1
+    D = [3, 23, 27, 53, 61, 71, 79, 97]
+    D.insert(0, 1)
+    k = 6
+    result = RDP(k, D)
+    naf = convertNAF(k)
+    print "k = ", k, "\nRDR = ", result, "\tLength > ", len(result), "\nNAF = ", naf , "Length > ", len(naf);#, "\t\tLength -> ", len(result);
+    # print "Length => ", len(result)
