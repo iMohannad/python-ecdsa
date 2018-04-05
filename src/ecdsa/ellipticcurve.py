@@ -159,19 +159,25 @@ class Point(object):
       return "infinity"
     return "(%d,%d)" % (self.__x, self.__y)
 
-  def RDR_multiply(self, d, k, point):
+  def RDR_multiply(self, d, k):
     pre_points = {}
     for i in d:
-      pre_points[i] = i*point
+      pre_points[i] = i*self
+    print type(pre_points[1])
+    for i in d:
+      print "i = ", i, " ", pre_points[i]
 
-    result = Point(self.curve, 0, 0)
+    result = INFINITY
     for i in k:
       result = result.double()
       if i != 0:
         if i > 0:
+          print i, " > 0"
           result = result + pre_points[i]
         else:
-          result = result + Point(self.curve, pre_points[i].x, -pre_points[i].y)
+          print i, " < 0"
+          print type(pre_points[abs(i)])
+          result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
 
     return result
 
