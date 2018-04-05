@@ -253,15 +253,21 @@ def generate_random_D(m, l):
     Running the program from a terminal as follows:
     python recording_alg.py k m l   (Where k, m, and l are numbers)
 """
-if __name__ == '__main__':
-    # k = int(sys.argv[1]);
-    # m = int(sys.argv[2]);
-    # l = int(sys.argv[3]);
-    # D = generate_random_D(m, l);
-    D = [3, 23, 27, 53, 61, 71, 79, 97]
+def RDR(m, l, k):
+    D = generate_random_D(m, l);
+    #D = [3, 23, 27, 53, 61, 71, 79, 97]
     D.insert(0, 1)
-    k = 6
+    print "D > ", D
     result = RDP(k, D)
     naf = convertNAF(k)
-    print "k = ", k, "\nRDR = ", result, "\tLength > ", len(result), "\nNAF = ", naf , "Length > ", len(naf);#, "\t\tLength -> ", len(result);
+    #print "Length of RDR = ", len(result)
+    #print "Length of NAF = ", len(naf)
+    print "k = ", k, "\nRDR = ", result, "\tLength > ", len(result)
+    print "NAF = ", naf , "Length > ", len(naf);#, "\t\tLength -> ", len(result);
     # print "Length => ", len(result)
+
+if __name__ == "__main__":
+    i = 10
+    while i < 100:
+        RDR(400, i, 651056770906015076056810763456358567190100156695615665659)
+        i = i+1
