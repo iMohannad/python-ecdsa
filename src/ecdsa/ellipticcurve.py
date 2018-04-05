@@ -163,20 +163,14 @@ class Point(object):
     pre_points = {}
     for i in d:
       pre_points[i] = i*self
-    print type(pre_points[1])
-    for i in d:
-      print "i = ", i, " ", pre_points[i]
 
     result = INFINITY
     for i in k:
       result = result.double()
       if i != 0:
         if i > 0:
-          print i, " > 0"
           result = result + pre_points[i]
         else:
-          print i, " < 0"
-          print type(pre_points[abs(i)])
           result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
 
     return result
