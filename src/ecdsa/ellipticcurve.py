@@ -159,6 +159,23 @@ class Point(object):
       return "infinity"
     return "(%d,%d)" % (self.__x, self.__y)
 
+  def RDR_multiply(self, d, k, point):
+    pre_points = {}
+    for i in d:
+      pre_points[i] = i*point
+
+    result = Point(self.curve, 0, 0)
+    for i in k:
+      result = result.double()
+      if i != 0:
+        if i > 0:
+          result = result + pre_points[i]
+        else:
+          result = result + Point(self.curve, pre_points[i].x, -pre_points[i].y)
+
+    return result
+
+
   def double(self):
     """Return a new point that is twice the old."""
 
