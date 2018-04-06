@@ -197,6 +197,7 @@ class Point(object):
     overheadTime = overheadTime + (endTime - startTime)
     if (index == 1):
       print("Overhead > ", overheadTime/1000)
+      overheadTime = 0
 
     startTime = time.time()
     result = INFINITY
@@ -211,6 +212,7 @@ class Point(object):
     Actual_RDR_time = Actual_RDR_time + (endTime - startTime)
     if (index == 1):
       print("RDR ONLY> ", Actual_RDR_time/1000)
+      Actual_RDR_time = 0
     return result
   
   def NAF_multiply(self, k):
