@@ -38,6 +38,9 @@ from six import python_2_unicode_compatible
 import numbertheory
 import time
 
+overheadTime = 0
+Actual_RDR_time = 0
+
 @python_2_unicode_compatible
 class CurveFp(object):
   """Elliptic Curve over the field of integers modulo a prime."""
@@ -179,6 +182,35 @@ class Point(object):
           result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
     endTime = time.time()
     print("RDR ONLY> ", endTime - startTime)
+    return result
+
+  
+  
+  def RDR_multiply_index(self, d, k, index):
+    global Actual_RDR_time
+    global overheadTime
+    pre_points = {}
+    startTime = time.time()
+    for i in d:
+      pre_points[i] = i*self
+    endTime = time.time()
+    overheadTime = overheadTime + (endTime - startTime)
+    if (index == 1):
+      print("Overhead > ", overheadTime/1000)
+
+    startTime = time.time()
+    result = INFINITY
+    for i in k:
+      result = result.double()
+      if i != 0:
+        if i > 0:
+          result = result + pre_points[i]
+        else:
+          result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
+    endTime = time.time()
+    Actual_RDR_time = Actual_RDR_time + (endTime - startTime)
+    if (index == 1):
+      print("RDR ONLY> ", Actual_RDR_time/1000)
     return result
   
   def NAF_multiply(self, k):
