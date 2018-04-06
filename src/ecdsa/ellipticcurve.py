@@ -36,6 +36,7 @@ from __future__ import division
 
 from six import python_2_unicode_compatible
 import numbertheory
+import time
 
 @python_2_unicode_compatible
 class CurveFp(object):
@@ -161,9 +162,13 @@ class Point(object):
 
   def RDR_multiply(self, d, k):
     pre_points = {}
+    startTime = time.time()
     for i in d:
       pre_points[i] = i*self
+    endTime = time.time()
+    print("Overhead > ", endTime - startTime)
 
+    startTime = time.time()
     result = INFINITY
     for i in k:
       result = result.double()
@@ -172,7 +177,8 @@ class Point(object):
           result = result + pre_points[i]
         else:
           result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
-
+    endTime = time.time()
+    print("RDR ONLY> ", endTime - startTime)
     return result
   
   def NAF_multiply(self, k):
