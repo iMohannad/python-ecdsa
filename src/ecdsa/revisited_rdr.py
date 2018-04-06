@@ -257,17 +257,31 @@ def RDR(m, l, k):
     D = generate_random_D(m, l);
     #D = [3, 23, 27, 53, 61, 71, 79, 97]
     D.insert(0, 1)
-    print "D > ", D
+    #print "D > ", D
     result = RDP(k, D)
     naf = convertNAF(k)
     #print "Length of RDR = ", len(result)
     #print "Length of NAF = ", len(naf)
-    print "k = ", k, "\nRDR = ", result, "\tLength > ", len(result)
-    print "NAF = ", naf , "Length > ", len(naf);#, "\t\tLength -> ", len(result);
+    #print "k = ", k, "\nRDR = ", result, "\tLength > ", len(result)
+    #print "NAF = ", naf , "Length > ", len(naf) #, "\t\tLength -> ", len(result);
     # print "Length => ", len(result)
+    return [D, result, naf, len(result)]
 
 if __name__ == "__main__":
     i = 10
-    while i < 100:
-        RDR(400, i, 651056770906015076056810763456358567190100156695615665659)
+    [D, Di, naf, min_length] = RDR(400, i, 115792089210351248362697456949407573528996955234135760342422159061068512044339)
+    min_len = min_length
+    D_set = D
+    D_result = Di
+    naf_result = naf
+    while i < 200:
+        [D, Di, naf, min_length] = RDR(400, i, 115792089210351248362697456949407573528996955234135760342422159061068512044339)
+        if min_length < min_len :
+            D_set = D
+            D_result = Di
+            naf_result = naf
         i = i+1
+
+    print "D = ", D_set
+    print  "RDR = ", D_result, "\tLength > ", len(D_result)
+    print "NAF = ", naf_result , "Length > ", len(naf_result)
