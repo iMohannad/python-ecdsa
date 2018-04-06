@@ -4,6 +4,9 @@ import time
 import revisited_rdr
 
 def test_ellipticcurve():
+  class FailedTest(Exception):
+    pass
+    
   # NIST Curve P-192:
   p = 6277101735386680763835789423207666416083908700390324961279
   r = 6277101735386680763835789423176059013767194773182842284081
@@ -22,20 +25,35 @@ def test_ellipticcurve():
   RDR = [53, 0, 0, 0, 0, 0, 0, 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, -153, 0, 0, 0, 0, 0, 0, -95, 0, 0, 0, 0, 0, -95, 0, 0, 0, 0, 0, 0, 0, 0, -175, 0, 0, 0, 0, 349, 0, 0, 0, 0, 0, 69, 0, 0, 0, 0, 0, 187, 0, 0, 0, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, -349, 0, 0, 0, 0, 0, -95, 0, 0, 0, 0, 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -213, 0, 0, 0, 0, 0, 0, 0, 327, 0, 0, 0, 0, 0, 0, -349, 0, 0, 0, 0, 0, 0, 0, 0, 187, 0, 0, 0, 0, 0, 0,0, 0, -57, 0, 0, 0, 0, 0, 0, 297, 0, 0, 0, 0, 0, 0, 339, 0, 0, 0, 0, 0, 0, 0, -391, 0, 0, 0, 0, 0, 0, -391, 0, 0, 0, 0, 0, 0, -391, 0, 0,0, 0, 0, -247, 0, 0, 0, 0, 0, 0, 0, 0, -43, 0, 0, 0, 0, 0, 187]
   naf= [1, 0, -1, 0, 1, 0, 1, 0, 0, 1, 0, 0, -1, 0, -1, 0, -1, 0, -1, 0, 1, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, -1, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0,-1, 0, 0, 0, 1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, 1, 0, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, -1, 0, -1, 0, 0, 0, -1, 0, -1, 0, 0, -1, 0, 0, 1, 0, 1, 0, -1, 0, -1, 0, -1, 0, 0, -1, 0, 1, 0, 0, 1, 0, -1, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, -1]
   d = 651056770906015076056810763456358567190100156695615665659
-  startTime = time.time()
-  Q = d * p192
-  endTime = time.time()
-  print("Double and add > ", endTime - startTime)
+  i = 1000
 
-  startTime = time.time()
-  G = p192.RDR_multiply(digt_set, RDR)
-  endTime = time.time()
-  print("RDR > ", endTime - startTime)
+  doubleadd_time = 0
+  naf_time = 0
+  rdr_time = 0
+  while (i > 0):
+    print i
+    startTime = time.time()
+    Q = d * p192
+    endTime = time.time()
+    doubleadd_time = doubleadd_time + (endTime - startTime)
+    # print("Double and add > ", endTime - startTime)
 
-  startTime = time.time()
-  N = p192.NAF_multiply(naf)
-  endTime = time.time()
-  print("NAF > ", endTime - startTime)
+    startTime = time.time()
+    G = p192.RDR_multiply_index(digt_set, RDR, i)
+    endTime = time.time()
+    rdr_time = rdr_time + (endTime - startTime)
+    # print("RDR > ", endTime - startTime)
+
+    startTime = time.time()
+    N = p192.NAF_multiply(naf)
+    endTime = time.time()
+    naf_time = naf_time + (endTime - startTime)
+    # print("NAF > ", endTime - startTime)
+    i = i - 1
+
+  print ("Double and Add average > ", doubleadd_time/1000)
+  print ("RDR average > ", rdr_time/1000)
+  print ("NAF average > ", naf_time/1000)
 
   print("N > ", N.y())
   print("X > ", G.y())
