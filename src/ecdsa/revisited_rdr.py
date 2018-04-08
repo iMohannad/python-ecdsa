@@ -1,7 +1,7 @@
 import math
 import random
 import sys
-
+import time
 
 """ Convert integer k to NAF format using the following algorithm
     i <- 0
@@ -269,19 +269,30 @@ def RDR(m, l, k):
 
 if __name__ == "__main__":
     i = 10
-    [D, Di, naf, min_length] = RDR(400, i, 115792089210351248362697456949407573528996955234135760342422159061068512044339)
+    [D, Di, naf, min_length] = RDR(1000, i, 26959956671506397946670150870196259404578077144243917216827126959956671506397946670150870196259404578077144243917216)
     min_len = min_length
     D_set = D
     D_result = Di
     naf_result = naf
-    while i < 200:
-        [D, Di, naf, min_length] = RDR(400, i, 115792089210351248362697456949407573528996955234135760342422159061068512044339)
-        if min_length < min_len :
-            D_set = D
-            D_result = Di
-            naf_result = naf
+    j = 0
+    averageTime = 0
+    while i <= 300:
+        while j < 1000:
+            startTime = time.time()
+            [D, Di, naf, min_length] = RDR(1000, i, 26959956671506397946670150870196259404578077144243917216827126959956671506397946670150870196259404578077144243917216)
+            endTime = time.time()
+            averageTime = averageTime + (endTime - startTime)
+            j = j+1
+        averageTime = averageTime / 1000
+        print "Average Time for digit set of Size ", i, " = ", averageTime
+        averageTime = 0
+        j = 0
+        # if min_length < min_len :
+        #     D_set = D
+        #     D_result = Di
+        #     naf_result = naf
         i = i+1
 
-    print "D = ", D_set
-    print  "RDR = ", D_result, "\tLength > ", len(D_result)
-    print "NAF = ", naf_result , "Length > ", len(naf_result)
+    # print "D = ", D_set
+    # print  "RDR = ", D_result, "\tLength > ", len(D_result)
+    # print "NAF = ", naf_result , "Length > ", len(naf_result)
