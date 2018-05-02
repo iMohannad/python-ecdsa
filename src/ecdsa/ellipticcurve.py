@@ -205,12 +205,12 @@ class Point(object):
     P = self
     P_double = 2*P
     for j in range(1, max(d)+1, 2):
-      if (j <= d[index_id]/2):
+      if (j <= d[index_d]/2):
         P = P.double()
         P = P + P
-      elif (j == d[index_id]):
+      elif (j == d[index_d]):
         pre_points[j] = P
-        index_id = index_id + 1
+        index_d = index_d + 1
         P = P + P_double
       else:
         P = P + P_double
