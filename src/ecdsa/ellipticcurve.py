@@ -166,8 +166,18 @@ class Point(object):
   def RDR_multiply(self, d, k):
     pre_points = {}
     startTime = time.time()
-    for i in d:
-      pre_points[i] = i*self
+    for j in range(1, max(d)+1, 2):
+      if (j <= d[index_id]/2):
+        P = P.double()
+        P = P + P
+      elif (j == d[index_id]):
+        pre_points[j] = P
+        index_id = index_id + 1
+        P = P + P_double
+      else:
+        P = P + P_double
+    # for i in d:
+    #   pre_points[i] = i*self
     endTime = time.time()
     print("Overhead > ", endTime - startTime)
 
