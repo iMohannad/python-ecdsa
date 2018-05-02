@@ -130,5 +130,20 @@ def test_ellipticcurve():
   else:
     print_("u1 * p192 + u2 * Q came out right.")
 
+def test_RDR():
+  c192 = CurveFp(23, 1, 1)
+  p192 = Point(c192, 1, 16)
+  D = [1, 3, 23, 27]
+  k = 31415
+  RDR = [1, 0, 0, 0, 0, 0, -1, 0, 0, 0, -27, 0, 0, 0, 0, 23]
+  P = k * p192
+  Q = p192.RDR_multiply(D, RDR)
+  print("Px > ", P.x(),)
+  print(", Py > ", P.y())
+  print("Qx >", Q.x(),)
+  print(", Qy > ", Q.y())
+
 if __name__ == "__main__":
-  test_ellipticcurve();
+  # test_RDR()
+  test_ellipticcurve()
+  
