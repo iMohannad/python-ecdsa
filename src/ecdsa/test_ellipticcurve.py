@@ -131,19 +131,27 @@ def test_ellipticcurve():
     print_("u1 * p192 + u2 * Q came out right.")
 
 def test_RDR():
-  c192 = CurveFp(23, 1, 1)
-  p192 = Point(c192, 1, 16)
+  p = 6277101735386680763835789423207666416083908700390324961279
+  r = 6277101735386680763835789423176059013767194773182842284081
+  # s = 0x3045ae6fc8422f64ed579528d38120eae12196d5L
+  c = 0x3099d2bbbfcb2538542dcd5fb078b6ef5f3d6fe2c745de65
+  b = 0x64210519e59c80e70fa7e9ab72243049feb8deecc146b9b1
+  Gx = 0x188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012
+  Gy = 0x07192b95ffc8da78631011ed6b24cdd573f977a11e794811
+
+  c192 = CurveFp(p, -3, b)
+  p192 = Point(c192, Gx, Gy, r)
   D = [1, 3, 23, 27]
   k = 31415
   RDR = [1, 0, 0, 0, 0, 0, -1, 0, 0, 0, -27, 0, 0, 0, 0, 23]
-  P = k * p192
+  N = k * p192
   Q = p192.RDR_multiply(D, RDR)
-  print("Px > ", P.x(),)
-  print(", Py > ", P.y())
+  print("Nx > ", N.x(),)
+  print(", Ny > ", N.y())
   print("Qx >", Q.x(),)
   print(", Qy > ", Q.y())
 
 if __name__ == "__main__":
-  # test_RDR()
-  test_ellipticcurve()
+  test_RDR()
+  # test_ellipticcurve()
   
