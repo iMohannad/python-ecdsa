@@ -274,11 +274,11 @@ def curve521():
 
 
 if __name__ == "__main__":
-  cur192 = 1
-  cur224 = 1
+  cur192 = 0
+  cur224 = 0
   cur256 = 1
-  cur384 = 1
-  cur521 = 1
+  cur384 = 0
+  cur521 = 0
   if cur192:
     curve192()
   if cur224:
@@ -288,5 +288,5 @@ if __name__ == "__main__":
   if cur384:
     curve384()
   if cur521:
-    curve521
+    curve521()
   
