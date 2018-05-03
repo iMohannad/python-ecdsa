@@ -213,16 +213,20 @@ class Point(object):
     P = self
     P_double = 2*P
     startTime = time.time()
-    for j in range(1, max(d)+1, 2):
+    j = 1
+    while j <= max(d):
       if (j <= d[index_d]/2):
         P = P.double()
-        P = P + P
+        P = P + self
+        j = 2*j + 1
       elif (j == d[index_d]):
         pre_points[j] = P
         index_d = index_d + 1
         P = P + P_double
+        j = j + 2
       else:
         P = P + P_double
+        j = j+2
 
     # for i in d:
     #   pre_points[i] = i*self
