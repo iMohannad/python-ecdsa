@@ -173,25 +173,20 @@ class Point(object):
     while j <= max(d):
       if (j <= d[index_d]/2):
         P = P.double()
-        P = P + P
-        print "1 j > ", j
+        P = P + self
         j = 2*j + 1
       elif (j == d[index_d]):
         pre_points[j] = P
         index_d = index_d + 1
         P = P + P_double
-        print "2 j > ", j
         j = j + 2
       else:
-        print "3 j > ", j
         P = P + P_double
         j = j+2
-    for j in d:
-      print j, ": (", pre_points[j].x(), ", ", pre_points[j].y(), ")"
 
-    for i in d:
-      pre_points[i] = i*self
-      print i, ": (", pre_points[i].x(), ", ", pre_points[i].y(), ")"
+    # for i in d:
+    #   pre_points[i] = i*self
+    #   print i, ": (", pre_points[i].x(), ", ", pre_points[i].y(), ")"
     endTime = time.time()
     print("Overhead > ", endTime - startTime)
 

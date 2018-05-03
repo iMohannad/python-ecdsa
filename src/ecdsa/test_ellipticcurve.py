@@ -154,4 +154,3 @@ def test_RDR():
 if __name__ == "__main__":
   test_RDR()
   # test_ellipticcurve()
-  
