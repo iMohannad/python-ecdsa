@@ -41,6 +41,9 @@ import time
 overheadTime = 0
 Actual_RDR_time = 0
 
+wnaf_time = 0
+wnaf_overhead = 0
+
 @python_2_unicode_compatible
 class CurveFp(object):
   """Elliptic Curve over the field of integers modulo a prime."""
@@ -233,7 +236,7 @@ class Point(object):
     endTime = time.time()
     overheadTime = overheadTime + (endTime - startTime)
     if (index == 1):
-      print("Overhead > ", overheadTime/1000)
+      print("Overhead > ", overheadTime/10)
       overheadTime = 0
 
     startTime = time.time()
@@ -248,10 +251,47 @@ class Point(object):
     endTime = time.time()
     Actual_RDR_time = Actual_RDR_time + (endTime - startTime)
     if (index == 1):
-      print("RDR ONLY> ", Actual_RDR_time/1000)
+      print("RDR ONLY> ", Actual_RDR_time/10)
       Actual_RDR_time = 0
     return result
   
+  def wnaf_multiply_index(self, d, k, index):
+    global wnaf_time
+    global wnaf_overhead
+    pre_points = {}
+    P = self
+    P_double = 2*P
+    startTime = time.time()
+    j = 1
+    while j <= max(d):
+      pre_points[j] = P
+      P = P + P_double
+      j = j+2
+
+    # for i in d:
+    #   pre_points[i] = i*self
+    endTime = time.time()
+    wnaf_overhead = wnaf_overhead + (endTime - startTime)
+    if (index == 1):
+      print("WNAF Overhead > ", wnaf_overhead/10)
+      wnaf_overhead = 0
+
+    startTime = time.time()
+    result = INFINITY
+    for i in k:
+      result = result.double()
+      if i != 0:
+        if i > 0:
+          result = result + pre_points[i]
+        else:
+          result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
+    endTime = time.time()
+    wnaf_time = wnaf_time + (endTime - startTime)
+    if (index == 1):
+      print("Wnaf ONLY> ", wnaf_time/10)
+      wnaf_time = 0
+    return result
+
   def NAF_multiply(self, k):
     result = INFINITY
     q = self
