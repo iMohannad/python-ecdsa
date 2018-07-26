@@ -16,6 +16,7 @@ def find_naf(k, l, w):
         k = k/l
         result.append(ki)
     result.reverse()
+    result = [int(v) for v in result]
     return result
 
 

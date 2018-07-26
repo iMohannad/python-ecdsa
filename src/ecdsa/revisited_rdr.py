@@ -242,6 +242,7 @@ def generate_random_D(m, l):
                 odd = True;
         D.append(x);
     D.sort();
+    print D
     return D;
 
 """ To run the program, you need to input 3 values,
