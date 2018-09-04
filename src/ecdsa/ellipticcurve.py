@@ -44,6 +44,9 @@ Actual_RDR_time = 0
 wnaf_time = 0
 wnaf_overhead = 0
 
+ifrdr_time = 0
+ifrdr_overhead = 0
+
 @python_2_unicode_compatible
 class CurveFp(object):
   """Elliptic Curve over the field of integers modulo a prime."""
@@ -206,7 +209,52 @@ class Point(object):
     print("RDR ONLY> ", endTime - startTime)
     return result
 
-  
+  def IFRDR_multiply_index(self, d, k, index):
+    global ifrdr_time
+    global ifrdr_overhead
+    pre_points = {}
+    index_d = 0
+    P = self
+    P_double = 2*P
+    startTime = time.time()
+    j = 1
+    while j <= max(d):
+      if (j <= d[index_d]/2):
+        P = P.double()
+        P = P + self
+        j = 2*j + 1
+      elif (j == d[index_d]):
+        pre_points[j] = P
+        index_d = index_d + 1
+        P = P + P_double
+        j = j + 2
+      else:
+        P = P + P_double
+        j = j+2
+
+    # for i in d:
+    #   pre_points[i] = i*self
+    endTime = time.time()
+    ifrdr_overhead = ifrdr_overhead + (endTime - startTime)
+    if (index == 1):
+      print("IFRA Overhead > ", ifrdr_overhead/100)
+      ifrdr_overhead = 0
+
+    startTime = time.time()
+    result = INFINITY
+    for i in k:
+      result = result.double()
+      if i != 0:
+        if i > 0:
+          result = result + pre_points[i]
+        else:
+          result = result + Point(self.__curve, pre_points[abs(i)].__x, -pre_points[abs(i)].__y)
+    endTime = time.time()
+    ifrdr_time = ifrdr_time + (endTime - startTime)
+    if (index == 1):
+      print("IFRA ONLY> ", ifrdr_time/100)
+      ifrdr_time = 0
+    return result
   
   def RDR_multiply_index(self, d, k, index):
     global Actual_RDR_time
@@ -236,7 +284,7 @@ class Point(object):
     endTime = time.time()
     overheadTime = overheadTime + (endTime - startTime)
     if (index == 1):
-      print("Overhead > ", overheadTime/10)
+      print("RDR Overhead > ", overheadTime/100)
       overheadTime = 0
 
     startTime = time.time()
@@ -251,7 +299,7 @@ class Point(object):
     endTime = time.time()
     Actual_RDR_time = Actual_RDR_time + (endTime - startTime)
     if (index == 1):
-      print("RDR ONLY> ", Actual_RDR_time/10)
+      print("RDR ONLY> ", Actual_RDR_time/100)
       Actual_RDR_time = 0
     return result
   
@@ -273,7 +321,7 @@ class Point(object):
     endTime = time.time()
     wnaf_overhead = wnaf_overhead + (endTime - startTime)
     if (index == 1):
-      print("WNAF Overhead > ", wnaf_overhead/10)
+      print("WNAF Overhead > ", wnaf_overhead/100)
       wnaf_overhead = 0
 
     startTime = time.time()
@@ -288,7 +336,7 @@ class Point(object):
     endTime = time.time()
     wnaf_time = wnaf_time + (endTime - startTime)
     if (index == 1):
-      print("Wnaf ONLY> ", wnaf_time/10)
+      print("Wnaf ONLY> ", wnaf_time/100)
       wnaf_time = 0
     return result
 
